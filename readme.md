@@ -1,0 +1,1 @@
+Slightly modified version of paris-traceroute, in order to be compatible with the [MONROE platform.](https://www.monroe-project.eu/) [The original umodified code can be found here.](https://code.google.com/p/paris-traceroute/source/checkout) 
