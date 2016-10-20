@@ -1,6 +1,7 @@
 #include "Probe.h"
 
 // Foivos
+#include "common.h"
 #include <iostream>
 #include <stdlib.h>     /* exit, EXIT_FAILURE */
 #include <fstream>
@@ -89,27 +90,33 @@ Probe::send () {
   if (setsockopt (sock, IPPROTO_IP, IP_HDRINCL, &one, sizeof (one)) < 0)
     throw TrException(str_log(ERROR, "Can't set socket option IP_HDRINCL :%s",
 		strerror(errno)));
+
+
   //Foivos
   // bind the the specific interface we want
-  //std::cout << "inside send 1" << std::endl;
-  std::ifstream infile("sourceInterface.txt");
-  	std::string sourceInterface;
-  	std::getline(infile, sourceInterface);
-  	//std::cout << sourceInterface << std::endl;
-
-
-
-  	// return the source address
-
-  	char *srciface = (char *) sourceInterface.c_str();
-  	//std::cout << "The source interface is going to be: " << srciface << std::endl;
-  	log(INFO, "The source interface is going to be:  %s\n", srciface);
-  	//std::cout << "The size of char *srciface: " << strlen(srciface) << std::endl;
-  	log(INFO, "The size of char *srciface:  %d\n", strlen(srciface));
-  if (setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE, srciface , strlen(srciface)) < 0)
-      throw TrException(str_log(ERROR, "Can't set socket source interface :%s",
-  		strerror(errno)));
+  int useFile = 0;
+  if (useFile) {
+	  std::ifstream infile("sourceInterface.txt");
+	  std::string sourceInterface;
+	  std::getline(infile, sourceInterface);
+	  // return the source address
+	  char *srciface = (char *) sourceInterface.c_str();
+	  std::cout << "The source interface is going to be: " << srciface << std::endl;
+	  log(INFO, "The source interface (FILE parameter) is going to be:  %s\n", srciface);
+	  //std::cout << "The size of char *srciface: " << strlen(srciface) << std::endl;
+	  log(INFO, "The size of char *srciface:  %d\n", strlen(srciface));
+	  if (setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE, srciface , strlen(srciface)) < 0)
+		  throw TrException(str_log(ERROR, "Can't set socket source interface :%s",
+			strerror(errno)));
+  } else{
+	  log(INFO, "The source interface (CLI parameter) is going to be:  %s\n", globalVariables::g_nodeInterface);
+	  if (setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE, globalVariables::g_nodeInterface , strlen(globalVariables::g_nodeInterface)) < 0)
+	  		  throw TrException(str_log(ERROR, "Can't set socket source interface :%s",
+	  			strerror(errno)));
+  }
   //Foivos
+
+
 
   /* Get the second header (UDP, TCP, ICMP) */
   Header* seg = getHeader(1);

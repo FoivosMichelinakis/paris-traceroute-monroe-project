@@ -41,7 +41,7 @@ TracertImpl::TracertImpl (Options* opts) {
   
   // Initialisation
   this->opts = opts;
-  
+
   time = new Time();
   
   id_current = opts->id_initial;

@@ -9,13 +9,14 @@
 
 enum {FLOW, DEST, ALL};
 
+
 struct Options {
 	char 		targets[32];
 	// Probe type
   // to be removed, replaced by int protocol
 	char		protocol[5];
   int     protocole;
-  
+
 	// Probe parameter
 	char*		src_addr;
 	char*		dst_addr;
@@ -56,6 +57,9 @@ struct Options {
 	void helpAlgo ();
 	void version ();
 };
+
+
+
 
 #endif // __OPTIONS_H__
 

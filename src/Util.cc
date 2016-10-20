@@ -34,27 +34,23 @@ char*
 Util::getRoute (const char* dest) {
 
 	//Foivos
-	//exit (EXIT_FAILURE);
-
-	//std::cout << "here 1" << std::endl;
-
-	//read the source address from the file: sourceIP.txt
-	std::ifstream infile("sourceIP.txt");
-	std::string sourceAddress;
-	std::getline(infile, sourceAddress);
-	//std::cout << sourceAddress << std::endl;
-
-
-
-	// return the source address
+	//Get the source address that will be used at the nodes
 	struct sockaddr_in src_addr;
 	bzero(&src_addr, sizeof(struct sockaddr_in));
-	src_addr.sin_addr.s_addr = inet_addr(sourceAddress.c_str());
-	//std::cout << "The source IP is going to be: " << strdup(inet_ntoa(src_addr.sin_addr)) << std::endl;
-	log(INFO, "The source IP is going to be:  %s\n", strdup(inet_ntoa(src_addr.sin_addr)));
-	//std::cout << "here 2" << std::endl;
-	//exit (EXIT_FAILURE);
-	return strdup(inet_ntoa(src_addr.sin_addr));
+	int useFile = 0;
+	if (useFile) {
+		std::ifstream infile("sourceIP.txt");
+		std::string sourceAddress;
+		std::getline(infile, sourceAddress);
+		// return the source address
+		src_addr.sin_addr.s_addr = inet_addr(sourceAddress.c_str());
+		log(INFO, "The source IP (File parameter) is going to be:  %s\n", strdup(inet_ntoa(src_addr.sin_addr)));
+		return strdup(inet_ntoa(src_addr.sin_addr));
+	 } else {
+		 src_addr.sin_addr.s_addr = inet_addr(globalVariables::g_nodeIP);
+		 log(INFO, "The source IP (CLI parameter) is going to be:  %s\n", strdup(inet_ntoa(src_addr.sin_addr)));
+		 return strdup(inet_ntoa(src_addr.sin_addr));
+	 }
 	//Foivos
 
 	FILE * fd;

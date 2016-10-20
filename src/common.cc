@@ -11,6 +11,17 @@ static int log_level = INFO;
 static int log_level = WARN;
 #endif
 
+
+//Foivos parameters
+namespace globalVariables
+{
+extern char* g_nodeIP = NULL;
+extern char* g_nodeInterface = NULL;
+extern  int g_testGlobalVAriable = 5;
+}
+//Foivos parameters
+
+
 /// Set the logging level (from DUMP to ERROR)
 void
 set_log_level (int lvl) {

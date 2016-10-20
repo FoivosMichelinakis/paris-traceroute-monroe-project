@@ -12,10 +12,19 @@
 
 #include <pthread.h>
 
+// Foivos
+#include <iostream>
+#include <stdlib.h>     /* exit, EXIT_FAILURE */
+#include <fstream>
+#include <sstream>
+// Foivos
+
+
 int main (int argc, char** argv) {
 #ifdef DEVANOMALIES	
 	printf("device anomalies\n");
 #endif	
+
 
 	//printf("check bad flow id\n");	
 
@@ -40,6 +49,16 @@ int main (int argc, char** argv) {
   Server*  icmp_server = NULL;
   Server*  tcp_server  = NULL;
   opts->dump();
+
+
+  fprintf(stdout, "test %d \n", globalVariables::g_testGlobalVAriable);
+  fprintf(stdout, "g_nodeInterface inside main %s end\n", globalVariables::g_nodeInterface);
+ fprintf(stdout, "g_nodeIP; inside main %s end\n", globalVariables::g_nodeIP);
+  std::cout << "The source interface is going to be: %s end " << globalVariables::g_nodeInterface << std::endl;
+
+
+ fprintf(stdout, "globalVariables::g_nodeIP at options  %s  end \n", globalVariables::g_nodeIP);
+
 
   // Select an algorithm
   int algo = NULL_TRACERT;

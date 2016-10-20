@@ -5,6 +5,16 @@
 
 #include <sys/time.h>
 
+//Foivos parameters
+namespace globalVariables
+{
+extern char* g_nodeIP;
+extern char* g_nodeInterface;
+extern  int g_testGlobalVAriable;
+}
+//Foivos parameters
+
+
 /* Some basic type definitions */
 typedef unsigned int	uint32;
 typedef signed   int	sint32;
