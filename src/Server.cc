@@ -20,6 +20,14 @@
 #include <pcap.h>
 #endif
 
+
+// Foivos
+#include "common.h"
+#include <iostream>
+#include <stdlib.h>     /* exit, EXIT_FAILURE */
+#include <fstream>
+#include <sstream>
+// Foivos
 /**
  * C callback function used to start the Server thread
  */
@@ -94,6 +102,33 @@ Server::Server (Options* opts, const char* protocol) {
                                                 strerror(errno)));
 #endif
 
+
+
+
+  //Foivos
+  // bind the the specific interface we want
+  int useFile = 0;
+  if (useFile) {
+	  std::ifstream infile("sourceInterface.txt");
+	  std::string sourceInterface;
+	  std::getline(infile, sourceInterface);
+	  // return the source address
+	  char *srciface = (char *) sourceInterface.c_str();
+	 // std::cout << "The source interface is going to be: " << srciface << std::endl;
+	  log(INFO, "The source interface (FILE parameter) is going to be:  %s\n", srciface);
+	  //std::cout << "The size of char *srciface: " << strlen(srciface) << std::endl;
+	  log(INFO, "The size of char *srciface:  %d\n", strlen(srciface));
+	  if (setsockopt(sock_server, SOL_SOCKET, SO_BINDTODEVICE, srciface , strlen(srciface)) < 0)
+		  throw TrException(str_log(ERROR, "Can't set the receiving interface :%s",
+			strerror(errno)));
+  } else{
+	  log(INFO, "The source interface (CLI parameter) is going to be:  %s\n", globalVariables::g_nodeInterface);
+	  if (setsockopt(sock_server, SOL_SOCKET, SO_BINDTODEVICE, globalVariables::g_nodeInterface , strlen(globalVariables::g_nodeInterface)) < 0)
+	  		  throw TrException(str_log(ERROR, "Can't set the receiving interface :%s",
+	  			strerror(errno)));
+  }
+  //Foivos
+
   // Bind it
   sockaddr_in saddr;
   memset(&saddr, 0, sizeof(sockaddr_in));
@@ -102,6 +137,7 @@ Server::Server (Options* opts, const char* protocol) {
   //printf("NO BIND\n");
   
   res = bind(sock_server, (sockaddr*)&saddr, sizeof(sockaddr_in));
+  //std::cout << "The result of the bind (res) is " << res << std::endl;
   if (res < 0) throw TrException(str_log(ERROR,		"Cannot bind the server : %s", strerror(errno)));
 
 #endif // USEPCAP

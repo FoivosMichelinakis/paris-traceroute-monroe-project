@@ -51,13 +51,13 @@ int main (int argc, char** argv) {
   opts->dump();
 
 
-  fprintf(stdout, "test %d \n", globalVariables::g_testGlobalVAriable);
-  fprintf(stdout, "g_nodeInterface inside main %s end\n", globalVariables::g_nodeInterface);
- fprintf(stdout, "g_nodeIP; inside main %s end\n", globalVariables::g_nodeIP);
-  std::cout << "The source interface is going to be: %s end " << globalVariables::g_nodeInterface << std::endl;
+ // fprintf(stdout, "test %d \n", globalVariables::g_testGlobalVAriable);
+  //fprintf(stdout, "g_nodeInterface inside main %s end\n", globalVariables::g_nodeInterface);
+ //fprintf(stdout, "g_nodeIP; inside main %s end\n", globalVariables::g_nodeIP);
+ // std::cout << "The source interface is going to be: " << globalVariables::g_nodeInterface << std::endl;
 
 
- fprintf(stdout, "globalVariables::g_nodeIP at options  %s  end \n", globalVariables::g_nodeIP);
+// fprintf(stdout, "globalVariables::g_nodeIP at options  %s  end \n", globalVariables::g_nodeIP);
 
 
   // Select an algorithm

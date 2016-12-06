@@ -20,7 +20,7 @@
  * @param ttl Time to live
  * @param tos Time of service
  * @param data_len Length of the data to add to the probe
- * @param id Unique ID used to identify the probe (cfr. TODO)
+ * @param Unique ID used to identify the probe (cfr. TODO)
  * @param reset The probe will be used to reset a connection
  */
 Probe*
@@ -106,12 +106,12 @@ Probe::send () {
 	  //std::cout << "The size of char *srciface: " << strlen(srciface) << std::endl;
 	  log(INFO, "The size of char *srciface:  %d\n", strlen(srciface));
 	  if (setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE, srciface , strlen(srciface)) < 0)
-		  throw TrException(str_log(ERROR, "Can't set socket source interface :%s",
+		  throw TrException(str_log(ERROR, "Can't set socket source interface for sending Probes :%s",
 			strerror(errno)));
   } else{
 	  log(INFO, "The source interface (CLI parameter) is going to be:  %s\n", globalVariables::g_nodeInterface);
 	  if (setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE, globalVariables::g_nodeInterface , strlen(globalVariables::g_nodeInterface)) < 0)
-	  		  throw TrException(str_log(ERROR, "Can't set socket source interface :%s",
+	  		  throw TrException(str_log(ERROR, "Can't set socket source interface for sending Probes :%s",
 	  			strerror(errno)));
   }
   //Foivos

@@ -76,7 +76,7 @@ Options::Options (int argc, char** argv) {
     {"algo",        1, NULL, 'a'},
     {"length",      1, NULL, 'L'},
     {"nodeIPArgument",      1, NULL, 'C'},
-       {"nodeInterfaceArgument",      1, NULL, 'O'},
+    {"nodeInterfaceArgument",      1, NULL, 'O'},
     {NULL,          0, NULL,  0 }
   };
 #endif
@@ -244,7 +244,7 @@ Options::Options (int argc, char** argv) {
 	    help();
 	    exit(1);
 	  }
-	
+
 		char *p;
 		if ((p = strchr(argv[optind], '/')) != NULL) {
 			*p = 0x00;
@@ -310,6 +310,8 @@ Options::help () {
   printf("  -c                       number of threads (default 1)\n");
   printf("  -E                       probe multiplier\n");
   printf("  -r                       set the return flow identifier\n");
+  printf("  -C  --nodeIPArgument     provide the source IP (obligatory)\n");
+  printf("  -O  --nodeInterfaceArgument provide the source interface (obligatory)\n");
   printf("\n");
   exit(0);
 }
