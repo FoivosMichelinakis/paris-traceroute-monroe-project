@@ -20,6 +20,9 @@
 #include <stdlib.h>     /* exit, EXIT_FAILURE */
 #include <fstream>
 #include <sstream>
+
+#include <sys/types.h>
+#include <net/if.h>
 // Foivos
 
 
@@ -47,7 +50,31 @@ Util::getRoute (const char* dest) {
 		log(INFO, "The source IP (File parameter) is going to be:  %s\n", strdup(inet_ntoa(src_addr.sin_addr)));
 		return strdup(inet_ntoa(src_addr.sin_addr));
 	 } else {
-		 src_addr.sin_addr.s_addr = inet_addr(globalVariables::g_nodeIP);
+		 if (globalVariables::g_nodeIP == NULL)
+		 {
+			 // The IP flag is not set, so we set the IP manually
+			  int fd;
+			  struct ifreq ifr;
+
+			  fd = socket(AF_INET, SOCK_DGRAM, 0);
+
+			  /* I want to get an IPv4 IP address */
+			  ifr.ifr_addr.sa_family = AF_INET;
+
+			  /* I want IP address attached to "eth0" */
+			  strncpy(ifr.ifr_name, globalVariables::g_nodeInterface, IFNAMSIZ-1);
+
+			  ioctl(fd, SIOCGIFADDR, &ifr);
+
+			  close(fd);
+			  src_addr.sin_addr.s_addr = inet_addr(inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr));
+			  /* display result */
+			  //printf("%s\n", inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr));
+		}
+		else
+		{
+			src_addr.sin_addr.s_addr = inet_addr(globalVariables::g_nodeIP);
+		}
 		 log(INFO, "The source IP (CLI parameter) is going to be:  %s\n", strdup(inet_ntoa(src_addr.sin_addr)));
 		 return strdup(inet_ntoa(src_addr.sin_addr));
 	 }
