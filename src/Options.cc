@@ -310,7 +310,7 @@ Options::help () {
   printf("  -c                       number of threads (default 1)\n");
   printf("  -E                       probe multiplier\n");
   printf("  -r                       set the return flow identifier\n");
-  printf("  -C  --nodeIPArgument     provide the source IP (obligatory)\n");
+  printf("  -C  --nodeIPArgument     provide the source IP\n");
   printf("  -O  --nodeInterfaceArgument provide the source interface (obligatory)\n");
   printf("\n");
   exit(0);

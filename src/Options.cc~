@@ -75,11 +75,18 @@ Options::Options (int argc, char** argv) {
     {"missing_hop", 1, NULL, 'M'},
     {"algo",        1, NULL, 'a'},
     {"length",      1, NULL, 'L'},
+    {"nodeIPArgument",      1, NULL, 'C'},
+    {"nodeInterfaceArgument",      1, NULL, 'O'},
     {NULL,          0, NULL,  0 }
   };
 #endif
 
-  char* short_opts = "AZhVvQniDf:F:m:p:o:s:d:t:w:T:q:M:a:lb:L:B:c:E:r:";
+  char* short_opts = "AZhVvQniDf:F:m:p:o:s:d:t:w:T:q:M:a:lb:L:B:c:E:r:C:O:";
+
+  //Foivos parameters
+  char *nodeIPArgument = new char[200];
+  char *nodeInterfaceArgument = new char[200];
+  //Foivos parameters
 
   int opt = 1;
 #ifndef __FreeBSD__  
@@ -88,7 +95,20 @@ Options::Options (int argc, char** argv) {
 	while ((opt = getopt(argc, argv, short_opts/*, long_opts, NULL*/)) != -1) {
 #endif
     switch (opt) {
-      case 'v':   // verbose
+
+    //Foivos parameters
+    case 'C':
+    	strcpy(nodeIPArgument, optarg);
+    	globalVariables::g_nodeIP = (char *) nodeIPArgument;
+    	break;
+
+    case 'O':
+    	strcpy(nodeInterfaceArgument, optarg);
+    	globalVariables::g_nodeInterface = (char *) nodeInterfaceArgument;
+    	break;
+    //Foivos parameters
+
+    case 'v':   // verbose
         set_log_level(DUMP);
 	break;
       case 'Q':   // quiet
@@ -224,7 +244,7 @@ Options::Options (int argc, char** argv) {
 	    help();
 	    exit(1);
 	  }
-	
+
 		char *p;
 		if ((p = strchr(argv[optind], '/')) != NULL) {
 			*p = 0x00;
@@ -290,6 +310,8 @@ Options::help () {
   printf("  -c                       number of threads (default 1)\n");
   printf("  -E                       probe multiplier\n");
   printf("  -r                       set the return flow identifier\n");
+  printf("  -C  --nodeIPArgument     provide the source IP (obligatory)\n");
+  printf("  -O  --nodeInterfaceArgument provide the source interface (obligatory)\n");
   printf("\n");
   exit(0);
 }
